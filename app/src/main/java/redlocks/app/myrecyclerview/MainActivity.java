@@ -14,16 +14,18 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rvCategory;
     private ArrayList<President> list = new ArrayList<>();
+    private String title = "Mode List";
+
+
+    private void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Presiden Indonesia");
-        }
 
         rvCategory = findViewById(R.id.rv_category);
         rvCategory.setHasFixedSize(true);
@@ -46,6 +48,13 @@ public class MainActivity extends AppCompatActivity {
         rvCategory.setAdapter(gridPresidentAdapter);
     }
 
+    private void showRecyclerCardView(){
+        rvCategory.setLayoutManager(new LinearLayoutManager(this));
+        CardViewPresidentAdapter cardViewPresidentAdapter = new CardViewPresidentAdapter(this);
+        cardViewPresidentAdapter.setListPresident(list);
+        rvCategory.setAdapter(cardViewPresidentAdapter);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -56,12 +65,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_list:
+                setActionBarTitle("Mode List");
                 showRecyclerList();
                 break;
             case R.id.action_grid:
+                setActionBarTitle("Mode Grid");
                 showRecyclerGrid();
                 break;
             case R.id.action_cardview:
+                setActionBarTitle("Mode CardView");
+                showRecyclerCardView();
                 break;
         }
         return super.onOptionsItemSelected(item);
